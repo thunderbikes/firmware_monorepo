@@ -1,0 +1,9 @@
+<map id="Core/Src/init/init_freertos.c" name="Core/Src/init/init_freertos.c">
+<area shape="rect" id="Node000001" title="initializes the freertos threads" alt="" coords="128,5,255,45"/>
+<area shape="rect" id="Node000002" href="$init__freertos_8h.html" title="initializes the freertos threads" alt="" coords="5,93,119,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="161,48,94,88,91,84,159,43"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="143,93,239,119"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="194,46,194,79,189,79,189,46"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="264,93,327,119"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="218,43,271,83,267,87,215,48"/>
+</map>
