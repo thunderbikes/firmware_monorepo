@@ -9,7 +9,7 @@
  * 
  */
 
- #include "blink_tasks.h"
+#include "blink_tasks.h"
 #include "FreeRTOS.h"
 #include "task.h"
 
@@ -39,7 +39,7 @@ void tbike_blink2_thread(void *PvParameters)
 	}
 }
 
-init_blink_tasks()
+void init_blink_tasks(void)
 {
     blink1_task_handle = xTaskCreateStatic(
         tbike_blink1_thread,
@@ -61,3 +61,32 @@ init_blink_tasks()
         &s_blink2_buffer
     );
 }
+
+
+static StaticTask_t xIdleTaskTCB;
+static StackType_t uxIdleTaskStack[configMINIMAL_STACK_SIZE];
+
+/* This function is automatically called by the kernel on startup */
+void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer,
+                                    StackType_t **ppxIdleTaskStackBuffer,
+                                    uint32_t *pulIdleTaskStackSize )
+{
+    *ppxIdleTaskTCBBuffer = &xIdleTaskTCB;
+    *ppxIdleTaskStackBuffer = uxIdleTaskStack;
+    *pulIdleTaskStackSize = configMINIMAL_STACK_SIZE;
+}
+
+
+#if (configUSE_TIMERS == 1)
+static StaticTask_t xTimerTaskTCB;
+static StackType_t uxTimerTaskStack[configTIMER_TASK_STACK_DEPTH];
+
+void vApplicationGetTimerTaskMemory( StaticTask_t **ppxTimerTaskTCBBuffer,
+                                     StackType_t **ppxTimerTaskStackBuffer,
+                                     uint32_t *pulTimerTaskStackSize )
+{
+    *ppxTimerTaskTCBBuffer = &xTimerTaskTCB;
+    *ppxTimerTaskStackBuffer = uxTimerTaskStack;
+    *pulTimerTaskStackSize = configTIMER_TASK_STACK_DEPTH;
+}
+#endif
