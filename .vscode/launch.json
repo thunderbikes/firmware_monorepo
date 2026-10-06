@@ -1,0 +1,26 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            // Project Name
+            "name": "simple_freertos_tutorial",
+            // Install Cortex-Debug extension from the VSCode marketplace to use this debug configuration
+            "type": "cortex-debug",
+            // Specify launch or attach. Use launch to start a new debug session or attach to connect to an existing one.
+            "request": "launch",
+            // Specify the debugger to use. Use "stutil" for ST-Link, "jlink" for J-Link, or "openocd" for OpenOCD.
+            "servertype": "stutil",
+
+            "cwd": "${workspaceFolder}",
+
+            // Specify the path to the ELF file to debug. This is usually the output of your build process.
+            "executable": "${workspaceFolder}/code/tutorials/simple_freertos_tutorial/build/simple_freertos_tutorial.elf",
+            "device": "STM32F103", 
+            "interface": "swd",
+            //Use this when you want a breakpoint at main 
+            "runToEntryPoint": "main",
+
+            "svdFile": "${workspaceFolder}/svd/STM32F103.svd"
+        }
+    ]
+}
