@@ -37,6 +37,10 @@ void tbike_blink2_thread(void *PvParameters)
 {
 	for (;;) {
 		// Do nothing
+
+        HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+        volatile UBaseType_t mark = uxTaskGetStackHighWaterMark(blink2_task_handle);
+        vTaskDelay(pdMS_TO_TICKS(1000));
 	}
 }
 
