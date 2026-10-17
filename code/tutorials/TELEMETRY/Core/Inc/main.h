@@ -31,7 +31,7 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#define SD_SPI_HANDLE hspi2
+#define SD_SPI_HANDLE hspi2 //define the spi peripheral we will use
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/

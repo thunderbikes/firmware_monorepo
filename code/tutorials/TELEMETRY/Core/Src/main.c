@@ -62,6 +62,7 @@ static void MX_USB_PCD_Init(void);
 static void MX_SPI2_Init(void);
 /* USER CODE BEGIN PFP */
 
+uint8_t WriteToSDCard(char* file_name, char* data, uint32_t length);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -104,7 +105,32 @@ int main(void)
   MX_SPI2_Init();
   MX_FATFS_Init();
   /* USER CODE BEGIN 2 */
+  HAL_GPIO_WritePin(D3_LED2_GPIO_Port, D3_LED2_Pin, GPIO_PIN_RESET); //turn off the LED for check
+  FATFS SD_fatfs_h;		/* File system object for SD card logical drive */
+  TCHAR driver_path[4]  = "0:";	/* SD card logical drive path */
+  FRESULT result;
+  uint8_t function_result; 
+  /*parameter definitions:
+  f_mount(FATFS *fs, const TCHAR *path, BYTE opt)
+  fs: Pointer to the file system object (FATFS) to be registered
+  const TCHAR *path: Logical drive path (e.g. "0:")
+  BYTE opt: 0=Do not mount now, 1=Mount now
+  */
 
+  result = f_mount(&SD_fatfs_h, (TCHAR const*)driver_path, 1);	/* Give a work area to the default drive */
+  if (result != FR_OK) {
+    /* If the SD card is not mounted successfully, handle the error */
+    Error_Handler();
+  }
+
+  function_result = WriteToSDCard("test.csv", "Hello, World!", 13);
+
+  if (!function_result) {
+    /* If writing to the SD card failed, handle the error */
+    Error_Handler();
+  }
+  
+  HAL_GPIO_WritePin(D3_LED2_GPIO_Port, D3_LED2_Pin, GPIO_PIN_SET); //turn on the LED for check
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -377,7 +403,26 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+uint8_t WriteToSDCard(char* filename, char* data, uint32_t length) {
+  FRESULT result; 
+  FIL file; 
+  uint32_t bytes_written;
+  char test_file_path[256];
 
+  snprintf(test_file_path, sizeof(test_file_path), "0:/%s", filename); // Assuming the SD card is mounted as drive 0
+  
+  result = f_open(&file, test_file_path, FA_WRITE | FA_CREATE_ALWAYS); // Open the file for writing
+  if (result != FR_OK) {
+    // Handle error
+    return 0;
+  }
+
+  f_write(&file, data, length, &bytes_written); // Write data to the file
+  f_close(&file); // Close the file
+  f_mount(NULL, "0:", 1); // Unmount the SD card
+
+  return 1;
+}
 /* USER CODE END 4 */
 
 /**
