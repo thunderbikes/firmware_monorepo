@@ -9,6 +9,7 @@
  * 
  */
 
+#include "stm32f1xx_hal.h"
 #include "blink_tasks.h"
 #include "FreeRTOS.h"
 #include "task.h"
@@ -28,14 +29,16 @@ TaskHandle_t blink2_task_handle;
 void tbike_blink1_thread(void *PvParameters)
 {
 	for (;;) {
-		// Do nothing
+		HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+        vTaskDelay(500);
 	}
 }
 
 void tbike_blink2_thread(void *PvParameters)
 {
 	for (;;) {
-		// Do nothing
+		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_9);
+        vTaskDelay(333);
 	}
 }
 
