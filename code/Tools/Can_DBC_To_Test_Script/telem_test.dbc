@@ -1,0 +1,66 @@
+VERSION ""
+
+
+NS_ :
+    NS_DESC_
+    CM_
+    BA_DEF_
+    BA_
+    VAL_
+    CAT_DEF_
+    CAT_
+    FILTER
+    BA_DEF_DEF_
+    EV_DATA_
+    ENVVAR_DATA_
+    SGTYPE_
+    SGTYPE_VAL_
+    BA_DEF_SGTYPE_
+    BA_SGTYPE_
+    SIG_TYPE_REF_
+    VAL_TABLE_
+    SIG_GROUP_
+    SIG_VALTYPE_
+    SIGTYPE_VALTYPE_
+    BO_TX_BU_
+    BA_DEF_REL_
+    BA_REL_
+    BA_DEF_DEF_REL_
+    BU_SG_REL_
+    BU_EV_REL_
+    BU_BO_REL_
+    SG_MUL_VAL_
+
+BS_: 
+BU_: telemetry_board test_device 
+BO_ 2147483648 bat_data: 8 test_device
+   SG_ bat_vsig : 7|32@0- (1,0) [0|300] "volts" telemetry_board
+   SG_ bat_csig : 39|32@0- (1,0) [0|200] "amps" telemetry_board
+
+BO_ 2147483649 bms_temp_data: 8 test_device
+   SG_ bat_temp : 7|16@0+ (0.1,0) [0|100] "Celsius" telemetry_board
+   SG_ coolant_temp_inlet : 23|16@0+ (0.1,0) [0|100] "Celsius" telemetry_board
+   SG_ coolant_temp_outlet : 39|16@0+ (0.1,0) [0|100] "Celsius" telemetry_board
+
+BO_ 2147483650 motcon_data: 8 test_device
+   SG_ throttle_pos : 7|16@0+ (0.1,0) [0|100] "" telemetry_board
+   SG_ motor_rpm : 23|16@0+ (1,0) [0|300000] "RPM" telemetry_board
+   SG_ motor_temp : 39|16@0+ (0.1,0) [0|100] "Celsius" telemetry_board
+   SG_ motcon_temp : 55|16@0+ (0.1,0) [0|100] "Celsius" telemetry_board
+
+BA_DEF_ BO_ "GenMsgBackgroundColor" STRING ;
+BA_DEF_ BO_ "GenMsgForegroundColor" STRING ;
+BA_DEF_ BO_ "matchingcriteria" INT 0 0;
+BA_DEF_ BO_ "filterlabeling" INT 0 0;
+BA_DEF_ BO_ "GenMsgCycleTime" INT 0 65535; 
+BA_DEF_DEF_ "GenMsgBackgroundColor" "#ffffff";
+BA_DEF_DEF_ "GenMsgForegroundColor" "#000000";
+BA_DEF_DEF_ "matchingcriteria" 0;
+BA_DEF_DEF_ "filterlabeling" 1;
+BA_ "GenMsgForegroundColor" BO_ 2147483648 "#000000";
+BA_ "GenMsgForegroundColor" BO_ 2147483649 "#000000";
+BA_ "GenMsgForegroundColor" BO_ 2147483650 "#000000";
+
+BA_ "GenMsgCycleTime" BO_ 2147483648 100;
+BA_ "GenMsgCycleTime" BO_ 2147483649 700;
+BA_ "GenMsgCycleTime" BO_ 2147483650 500;
