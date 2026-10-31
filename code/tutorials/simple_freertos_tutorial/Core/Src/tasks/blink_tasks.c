@@ -9,6 +9,7 @@
  * 
  */
 
+#include "stm32f1xx_hal.h"
 #include "blink_tasks.h"
 #include "FreeRTOS.h"
 #include "task.h"
