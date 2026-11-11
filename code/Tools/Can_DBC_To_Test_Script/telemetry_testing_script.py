@@ -45,6 +45,28 @@ print(f"Loaded DBC: {args.dbc}")
 print(f"Connected to: {args.interface}")
 
 
+#----------------------------------------------------------------------------
+# value modification
+#-----------------------------------------------------------------------------
+# define increment signals function to increment the signal values for a given message index, wrapping around to 0 if the value exceeds the maximum defined in the DBC.
+def increment_signals(message_index):
+        
+    #Increment the signal values for the specified message index.
+    #Wrap around to 0 if the value exceeds the maximum defined in the DBC.
+        
+    message = dbc.messages[message_index]
+    signal_values = message_states[message_index]["signal_values"]
+
+    for signal in message.signals:
+        # Increment the signal value
+        signal_values[signal.name] += 1
+
+        #Wrap around if it exceeds the maximum value
+        if signal_values[signal.name] > signal.maximum:
+            signal_values[signal.name] = 0
+
+    # enter while loop to send messages at their defined cycle times, incrementing signal values each time a message is sent.
+
 #-------------------------------------
 # logic 
 #-------------------------------------
@@ -65,25 +87,6 @@ try:
             "signal_values": signal_values,
             "last_sent_time": 0  # Initialize last sent time to 0
         })
-    # define increment signals function to increment the signal values for a given message index, wrapping around to 0 if the value exceeds the maximum defined in the DBC.
-    def increment_signals(message_index):
-        
-        #Increment the signal values for the specified message index.
-        #Wrap around to 0 if the value exceeds the maximum defined in the DBC.
-        
-        message = dbc.messages[message_index]
-        signal_values = message_states[message_index]["signal_values"]
-
-        for signal in message.signals:
-            # Increment the signal value
-            signal_values[signal.name] += 1
-
-            #Wrap around if it exceeds the maximum value
-            if signal_values[signal.name] > signal.maximum:
-                signal_values[signal.name] = 0
-
-    # enter while loop to send messages at their defined cycle times, incrementing signal values each time a message is sent.
-
 
     while True:
         
@@ -96,7 +99,7 @@ try:
             if now - last_sent_time >= message.cycle_time:  # Check if it's time to send the message
                 increment_signals(dbc.messages.index(message))  # Increment the signal values for the current message
                 
-                data_payload =  message.encode(message_states[dbc.messages.index(message)]["signal_values"])  # Encode the signal values into a data payload
+                data_payload =  message.encode(message_states[dbc.messages.index(message)]["signal_values"])  # Encode the signal values into a data payload (cantools checks max and min values)
 
                 frame = can.Message(
                         arbitration_id = message.frame_id,

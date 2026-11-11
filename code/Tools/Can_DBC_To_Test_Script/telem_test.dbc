@@ -61,6 +61,6 @@ BA_ "GenMsgForegroundColor" BO_ 2147483648 "#000000";
 BA_ "GenMsgForegroundColor" BO_ 2147483649 "#000000";
 BA_ "GenMsgForegroundColor" BO_ 2147483650 "#000000";
 
-BA_ "GenMsgCycleTime" BO_ 2147483648 100;
+BA_ "GenMsgCycleTime" BO_ 2147483648 200;
 BA_ "GenMsgCycleTime" BO_ 2147483649 700;
 BA_ "GenMsgCycleTime" BO_ 2147483650 500;

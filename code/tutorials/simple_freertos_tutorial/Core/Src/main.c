@@ -92,14 +92,14 @@ int main(void)
 
   /* USER CODE END 2 */
 
-  /* Infinite loop */
+  /* Infinite loop */code/tutorials/TELEMETRY/TELEMETRY.ioc
   /* USER CODE BEGIN WHILE */
   while (1)
   {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    init_blink_tasks();
+    init_blink_tasks(); 
     vTaskStartScheduler();
   }
   /* USER CODE END 3 */

@@ -28,7 +28,7 @@ TaskHandle_t blink2_task_handle;
 void tbike_blink1_thread(void *PvParameters)
 {
 	for (;;) {
-		// Do nothing
+    
 	}
 }
 

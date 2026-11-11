@@ -12,7 +12,7 @@
 #include "blink_tasks.h"
 #include "FreeRTOS.h"
 #include "task.h"
-
+#include "main.h"
 #define STACK_SIZE 256
 
 static StaticTask_t s_blink1_buffer;
@@ -28,7 +28,8 @@ TaskHandle_t blink2_task_handle;
 void tbike_blink1_thread(void *PvParameters)
 {
 	for (;;) {
-		// Do nothing
+		HAL_GPIO_TogglePin(LED_PIN_GPIO_Port, LED_PIN_Pin);
+        vTaskDelay(pdMS_TO_TICKS(500)); // Delay for 500 milliseconds
 	}
 }
 
@@ -42,13 +43,13 @@ void tbike_blink2_thread(void *PvParameters)
 void init_blink_tasks(void)
 {
     blink1_task_handle = xTaskCreateStatic(
-        tbike_blink1_thread,
-        "Blink1Task",
-        STACK_SIZE,
-        NULL,
-        tskIDLE_PRIORITY + 1,
-        s_blink1_stack,
-        &s_blink1_buffer
+        tbike_blink1_thread, //function pointer to task function 
+        "Blink1Task", //name fo task 
+        STACK_SIZE, //stack size 
+        NULL, //parameter to pass to task funciton 
+        tskIDLE_PRIORITY + 1, //task priority 
+        s_blink1_stack, //pointer to stack array 
+        &s_blink1_buffer //pointer to task control block 
     );
 
     blink2_task_handle = xTaskCreateStatic(
@@ -66,7 +67,7 @@ void init_blink_tasks(void)
 static StaticTask_t xIdleTaskTCB;
 static StackType_t uxIdleTaskStack[configMINIMAL_STACK_SIZE];
 
-/* This function is automatically called by the kernel on startup */
+/* This function is automatically called by the kernel on startup, sets up idle task's memory  */
 void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer,
                                     StackType_t **ppxIdleTaskStackBuffer,
                                     uint32_t *pulIdleTaskStackSize )
