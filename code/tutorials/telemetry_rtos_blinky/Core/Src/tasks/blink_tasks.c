@@ -17,17 +17,34 @@ TaskHandle_t blink2_task_handle;
 
 // void parameter allwos passing of different tata to a task without the kernel knowing types. 
 void blink1_thread(void *pvParameters){
+    
+    TickType_t xLastWakeTime;
+    const TickType_t xFrequency = pdMS_TO_TICKS(500);
+    TickType_t xPeriodsElapsed;
 
+    xLastWakeTime = xTaskGetTickCount(); 
+    
     for(;;){
 
+        HAL_GPIO_TogglePin(LED2_GPIO_Port, LED2_Pin); 
+        xTaskPeriodicDelay(&xLastWakeTime, xFrequency); 
 
     }
 }
 
 void blink2_thread(void *pvParameters){
 
+    TickType_t xLastWakeTime;
+    const TickType_t xFrequency = pdMS_TO_TICKS(500);
+    TickType_t xPeriodsElapsed;
+
+    xLastWakeTime = xTaskGetTickCount(); 
+    
     for(;;){
 
+        HAL_GPIO_TogglePin(LED3_GPIO_Port, LED3_Pin); 
+        xTaskPeriodicDelay(&xLastWakeTime, xFrequency); 
+        
     }
 }
 
@@ -54,39 +71,3 @@ void init_blink_tasks(void){
     ); 
 }
    
-//the functions below literally just assign the timer and idle tasks memory since we disabled dynamic task creation 
-static StaticTask_t idle_task_buffer 
-static StaticType_t idle_task_stack
-
-// **indicates pointer to pointer.  
-// you pass in a pointer to your pointer. the function creates a local copy of the outermost pointer 
-// that copied adress in turn points to another adress
-//to change the value of the pointer, not the local copy, the double pointer is dereferenced once
-// that modifies teh value of the middle pointer, telling it to point to our variable. 
-//*pointer means acess the object at the adress stored at p 
-//&means adress of the variable 
-/* This function is automatically called by the kernel on startup, sets up idle task's memory  */
-void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer,
-                                    StackType_t **ppxIdleTaskStackBuffer,
-                                    uint32_t *pulIdleTaskStackSize )
-{
-    *ppxIdleTaskTCBBuffer = &idle_task_buffer;
-    *ppxIdleTaskStackBuffer = uxIdleTaskStack;
-    *pulIdleTaskStackSize = configMINIMAL_STACK_SIZE;
-}
-
-
-#if (configUSE_TIMERS == 1)
-static StaticTask_t xTimerTaskTCB;
-static StackType_t uxTimerTaskStack[configTIMER_TASK_STACK_DEPTH];
-
-void vApplicationGetTimerTaskMemory( StaticTask_t **ppxTimerTaskTCBBuffer,
-                                     StackType_t **ppxTimerTaskStackBuffer,
-                                     uint32_t *pulTimerTaskStackSize )
-{
-    *ppxTimerTaskTCBBuffer = &xTimerTaskTCB;
-    *ppxTimerTaskStackBuffer = uxTimerTaskStack;
-    *pulTimerTaskStackSize = configTIMER_TASK_STACK_DEPTH;
-}
-
-#endif

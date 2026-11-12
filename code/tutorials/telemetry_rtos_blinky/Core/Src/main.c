@@ -113,6 +113,7 @@ int main(void)
   {
     
     /* USER CODE END WHILE */
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -338,17 +339,17 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(D3_LED2_GPIO_Port, D3_LED2_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1|LED2_Pin|LED3_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(D25_MMCCS_GPIO_Port, D25_MMCCS_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : D3_LED2_Pin */
-  GPIO_InitStruct.Pin = D3_LED2_Pin;
+  /*Configure GPIO pins : PA1 LED2_Pin LED3_Pin */
+  GPIO_InitStruct.Pin = GPIO_PIN_1|LED2_Pin|LED3_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(D3_LED2_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pins : D29_USART3TX_Pin D30_USART3RX_Pin */
   GPIO_InitStruct.Pin = D29_USART3TX_Pin|D30_USART3RX_Pin;
