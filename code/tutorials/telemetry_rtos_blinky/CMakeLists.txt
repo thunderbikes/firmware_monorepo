@@ -36,7 +36,7 @@ enable_language(C ASM)
 #=====================================================
 # point to kernel 
 
-set(FREERTOS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../mieddleware/FreeRTOS-Kernel") 
+set(FREERTOS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../middleware/FreeRTOS-Kernel") 
 # point to port you want to compile, select compiler, and add description
 # a port is code that lets the kernel run on a specific architecutre, implementing stack setup, interrupthandling, and context switching 
 set(FREERTOS_PORT GCC_ARM_CM4F CACHE STRING "FreeRTOS port") 
@@ -45,7 +45,7 @@ set(FREERTOS_PORT GCC_ARM_CM4F CACHE STRING "FreeRTOS port")
 add_library(freertos_config INTERFACE) 
 
 #tells anything using freertos config where to look for header files.
-target_include_source_directories(freertos_config SYSTEM INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/core/Inc")  
+target_include_directories(freertos_config SYSTEM INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/Core/Inc")  
 
 #tells cmake to add the freerrtos kernel subdirectory to build 
 add_subdirectory("${FREERTOS_DIR}" freertos_kernel) 
@@ -73,6 +73,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
 # Add include paths
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user defined include paths
+    "${CMAKE_CURRENT_SOURCE_DIR}/Core/Inc/tasks"
 )
 
 # Add project symbols (macros)
@@ -89,4 +90,9 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
 
     # Add user defined libraries
     freertos_kernel 
+)
+#specify binary? 
+add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
+    COMMAND arm-none-eabi-objcopy -O binary $<TARGET_FILE:${CMAKE_PROJECT_NAME}> ${CMAKE_PROJECT_NAME}.bin
+    COMMENT "Extracting raw binary (.bin) for flashing..."
 )
