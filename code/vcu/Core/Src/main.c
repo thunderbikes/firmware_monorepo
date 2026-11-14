@@ -21,10 +21,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "FreeRTOS.h"
-#include "task.h"
-#include "blink_tasks.h"
-#include "can_tasks.h"
+#include "app_main.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -103,9 +100,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    init_blink_tasks();
-    init_can_tasks();
-    vTaskStartScheduler();
+    app_main();
   }
   /* USER CODE END 3 */
 }

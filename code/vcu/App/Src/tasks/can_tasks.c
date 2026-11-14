@@ -30,7 +30,7 @@ void tbike_can_recv_thread(void *PvParameters)
 {
 	for (;;) {
 		HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_1);
-        vTaskDelay(500);
+		vTaskDelay(500);
 	}
 }
 
@@ -38,29 +38,29 @@ void tbike_can_send_thread(void *PvParameters)
 {
 	for (;;) {
 		HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_2);
-        vTaskDelay(333);
+		vTaskDelay(333);
 	}
 }
 
 void init_can_tasks(void)
 {
-    can_recv_task_handle = xTaskCreateStatic(
-        tbike_can_recv_thread,
-        "Blink1Task",
-        STACK_SIZE,
-        NULL,
-        tskIDLE_PRIORITY + 1,
-        s_blink1_stack,
-        &s_blink1_buffer
-    );
+	// can_recv_task_handle = xTaskCreateStatic(
+	// 	tbike_can_recv_thread,
+	// 	"Blink1Task",
+	// 	STACK_SIZE,
+	// 	NULL,
+	// 	tskIDLE_PRIORITY + 1,
+	// 	s_blink1_stack,
+	// 	&s_blink1_buffer
+	// );
 
-    can_send_task_handle = xTaskCreateStatic(
-        tbike_can_send_thread,
-        "Blink2Task",
-        STACK_SIZE,
-        NULL,
-        tskIDLE_PRIORITY + 1,
-        s_blink2_stack,
-        &s_blink2_buffer
-    );
+	// can_send_task_handle = xTaskCreateStatic(
+	// 	tbike_can_send_thread,
+	// 	"Blink2Task",
+	// 	STACK_SIZE,
+	// 	NULL,
+	// 	tskIDLE_PRIORITY + 1,
+	// 	s_blink2_stack,
+	// 	&s_blink2_buffer
+	// );
 }

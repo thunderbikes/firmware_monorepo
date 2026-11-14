@@ -42,7 +42,7 @@ set(FREERTOS_PORT "GCC_ARM_CM3" CACHE STRING "FreeRTOS port name")
 add_library(freertos_config INTERFACE)
 target_include_directories(freertos_config SYSTEM
     INTERFACE
-        "Core/Inc"
+        "App/Inc"
 )
 add_subdirectory(${FREERTOS_DIR} freertos_kernel)
 
@@ -60,14 +60,17 @@ target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
 # Add sources to executable
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user sources here
-    "Core/Src/tasks/blink_tasks.c"
+    "App/Src/app_main.c"
+    "App/Src/tasks/blink_tasks.c"
+    "App/Src/tasks/can_tasks.c"
 )
 
 # Add include paths
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user defined include paths
     "Core/Inc"
-    "Core/Inc/tasks"
+    "App/Inc"
+    "App/Inc/tasks"
 )
 
 # Add project symbols (macros)
