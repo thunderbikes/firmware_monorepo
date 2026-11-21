@@ -60,4 +60,5 @@ doxygen
 ```
 in the directory with your Doxyfile
 
-This may be automated VIA github actions in the future so this triggers on every push.
+The repository's GitHub Actions workflow builds the BatMan and VCU documentation when either
+project changes and publishes both under GitHub Pages. The Pages home page links to each project.

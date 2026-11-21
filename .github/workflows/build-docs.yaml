@@ -1,0 +1,55 @@
+name: Build Docs
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Detect changed paths
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            vcu:
+              - 'code/vcu/**'
+              - '.github/workflows/build-docs.yaml'
+            batman:
+              - 'code/batman/**'
+              - '.github/workflows/build-docs.yaml'
+            site:
+              - 'docs/**'
+        
+      - name: Install Doxygen and Graphviz
+        run: sudo apt-get update && sudo apt-get install -y doxygen graphviz
+
+      - name: Generate VCU Doxygen documentation
+        if: steps.changes.outputs.vcu == 'true'
+        run: |
+          cd code/vcu
+          doxygen Doxyfile
+
+      - name: Generate Batman Doxygen documentation
+        if: steps.changes.outputs.batman == 'true'
+        run: |
+          cd code/batman
+          doxygen Doxyfile
+
+      - name: Deploy to gh-pages branch
+        if: >-
+          github.event_name == 'push' &&
+          (steps.changes.outputs.vcu == 'true' ||
+          steps.changes.outputs.batman == 'true' ||
+          steps.changes.outputs.site == 'true')
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs

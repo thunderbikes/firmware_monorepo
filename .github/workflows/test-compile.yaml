@@ -1,0 +1,37 @@
+name: Test Compile
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Detect changed paths
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            vcu:
+              - 'code/vcu/**'
+              - '.github/workflows/test-compile.yaml'
+
+      # 2. Run step only if 'vcu/' changed
+      - name: Build VCU
+        if: steps.changes.outputs.vcu == 'true'
+        run: |
+          {
+            echo "Building VCU..."
+            cd code/vcu
+            mkdir build
+            cd build
+            cmake -DCMAKE_TOOLCHAIN_FILE=../cmake/gcc-arm-none-eabi.cmake ..
+            cmake --build .
+          } >> "$GITHUB_OUTPUT"
